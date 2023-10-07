@@ -49,6 +49,44 @@ ORDER BY COUNT(film_title) DESC;
 
 -- 5. Write a query that returns the five distributors with the highest average movie budget.
 
+SELECT company_name
+FROM specs
+INNER JOIN distributors
+	ON distributors.distributor_id = specs.domestic_distributor_id
+INNER JOIN revenue
+	USING 	(movie_id)
+GROUP BY company_name
+ORDER BY AVG(film_budget) DESC
+LIMIT 5;
+
+-- "Walt Disney "
+-- "Sony Pictures"
+-- "Lionsgate"
+-- "DreamWorks"
+-- "Warner Bros."
+
 -- 6. How many movies in the dataset are distributed by a company which is not headquartered in California? Which of these movies has the highest imdb rating?
+
+-- SELECT headquarters, COUNT(film_title) AS title_count, MAX(imdb_rating) AS max_rating
+-- FROM specs
+-- INNER JOIN distributors
+-- 	ON distributors.distributor_id = specs.domestic_distributor_id
+-- INNER JOIN rating
+-- 	USING 	(movie_id)
+-- WHERE headquarters NOT LIKE '%CA%'
+-- GROUP BY headquarters;
+--above doesn't return titles--
+-- ok if answer to part B is "the one from Chicago"
+
+SELECT film_title, company_name AS company_not_in_CA, imdb_rating
+FROM specs
+INNER JOIN distributors
+	ON distributors.distributor_id = specs.domestic_distributor_id
+INNER JOIN rating
+	USING 	(movie_id)
+WHERE headquarters NOT LIKE '%CA%'
+ORDER BY imdb_rating DESC;
+
+--a: 2, Dirty Dancing
 
 -- 7. Which have a higher average rating, movies which are over two hours long or movies which are under two hours?
