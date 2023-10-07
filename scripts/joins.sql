@@ -37,8 +37,15 @@ ORDER BY worldwide_gross DESC;
 
 --a: Toy Story4. Walt Disney
 
--- 4. Write a query that returns, for each distributor in the distributors table, the distributor name and the number of movies associated with that distributor in the movies 
--- table. Your result set should include all of the distributors, whether or not they have any movies in the movies table.
+-- 4. Write a query that returns, for each distributor in the distributors table, the distributor name and the number of movies associated with that distributor in the movies table. 
+--Your result set should include all of the distributors, whether or not they have any movies in the movies table.
+
+SELECT company_name, COUNT(film_title)
+FROM distributors
+LEFT JOIN specs
+	ON distributors.distributor_id = specs.domestic_distributor_id
+GROUP BY company_name
+ORDER BY COUNT(film_title) DESC;
 
 -- 5. Write a query that returns the five distributors with the highest average movie budget.
 
