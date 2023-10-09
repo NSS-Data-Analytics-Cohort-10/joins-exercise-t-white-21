@@ -91,21 +91,22 @@ ORDER BY imdb_rating DESC;
 
 -- 7. Which have a higher average rating, movies which are over two hours long or movies which are under two hours?
 
-SELECT length_in_min, AVG(imdb_rating)
+SELECT 
+	'HIGHEST' TYPE,
+	COUNT(film_title), 
+	AVG(imdb_rating) AS avg_rating
 FROM specs
 LEFT JOIN rating
-USING (movie_id)
-GROUP BY length_in_min
-HAVING length_in_min>120
-ORDER BY AVG(imdb_rating) DESC;
+	USING (movie_id)
+WHERE length_in_min >120
+UNION
+SELECT 
+	'LOWEST' TYPE, 
+	COUNT(film_title), 
+	AVG(imdb_rating) AS avg_rating
+FROM specs
+LEFT JOIN rating
+	USING (movie_id)
+WHERE length_in_min <120;
 
---Daniel's start
--- SELECT
--- 	length_in_min,
--- 	AVG(imdb_rating) AS avg_rating
--- FROM specs AS s
--- 	LEFT JOIN rating AS r
--- 	ON s.movie_id=r.movie_id
--- WHERE length_in_min >=120 OR length_in_min<120
--- GROUP BY length_in_min
--- ORDER BY length_in_min DESC, avg_rating DESC;
+
